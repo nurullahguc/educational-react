@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router";
 import { handleHttpError, ToastMessage } from "../../utils/general";
-import http from "../../api/http";
 import { login } from "../../api/authApi";
+import { useAuth } from "../../hooks/useAuth";
 
 export function Login() {
     const [email, setEmail] = useState("nurullah@example.com");
@@ -10,6 +10,7 @@ export function Login() {
     const [emailTouched, setEmailTouched] = useState(false);
     const [passwordTouched, setPasswordTouched] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const { login } = useAuth();
 
     const handleOnChangeEmail = (e) => {
         setEmail(e.target.value);
@@ -49,18 +50,18 @@ export function Login() {
         try {
             ToastMessage('info', 'Request Sent!', 'Your login request has been sent, please wait for the transaction!');
             setIsLoading(true);
-            const response = await login({
+
+            await login({
                 email,
                 password
             });
+
             ToastMessage("success", "Successful!", "Welcome!");
         } catch (e) {
             handleHttpError(e);
             setIsLoading(false);
         }
-
     }
-
     return (
         <>
             <div className="container">

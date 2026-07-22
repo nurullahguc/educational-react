@@ -1,12 +1,15 @@
 import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router";
+import { useAuth } from "../hooks/useAuth";
 
 export function Header() {
-    
     const [showDropdown, setShowdropdown] = useState(false);
     const dropdownRef = useRef(null);
+    const { user, logout } = useAuth();
+    // console.log(user);
 
-    const handleClickCustomDropDown = () => {
+    const handleClickCustomDropDown = (e) => {
+        e.preventDefault();
         setShowdropdown(!showDropdown);
     };
 
@@ -20,6 +23,12 @@ export function Header() {
         document.addEventListener("click", handleClickOutside);
         return () => document.removeEventListener("click", handleClickOutside);
     }, []);
+
+    const handleLogout = async(e) => {
+        e.preventDefault();
+
+        await logout();
+    }
 
     return (
         <>
@@ -39,11 +48,11 @@ export function Header() {
                                     data-bs-toggle="dropdown"
                                     aria-expanded="false"
                                     onClick={handleClickCustomDropDown}
-                                >Custom Dropdown</a>
+                                >Welcome <b>{user?.name}</b></a>
                                 <ul className={`dropdown-menu dropdown-menu-end ${showDropdown ? 'show' : ''}`} aria-labelledby="navbarDropdown">
                                     <li><a className="dropdown-item" href="#">Action</a></li>
                                     <li><hr className="dropdown-divider" /></li>
-                                    <li><Link className="dropdown-item" to="/login">Logout</Link></li>
+                                    <li><a className="dropdown-item" href="#" onClick={handleLogout}>Logout</a></li>
                                 </ul>
                             </li>
                         </ul>

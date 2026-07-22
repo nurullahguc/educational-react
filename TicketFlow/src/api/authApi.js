@@ -27,5 +27,5 @@ export const register = async (userData) => {
 }
 
 export const logout = async () => {
-    await http.get("/api/logout");
+    await http.post("/api/logout");
 }

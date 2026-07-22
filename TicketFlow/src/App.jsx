@@ -1,4 +1,7 @@
 import { Routes, Route } from "react-router"
+import { ProtectedRoute } from "./routes/ProtectedRoute"
+import { GuestRoute } from "./routes/GuestRoute"
+
 import { HomePage } from './pages/home-page/HomePage'
 import './App.css'
 import { NotFoundPage } from "./pages/error-pages/NotFoundPage"
@@ -8,18 +11,20 @@ import { ToastContainer, toast, Bounce } from 'react-toastify'
 
 window.toast = toast;
 function App() {
-  const notify = () => toast("Wow so easy!");
-  notify();
   return (
     <>
-
       <Routes>
-        <Route index element={<HomePage />} />
+        {/* Only unauthenticated users */}
+        <Route element={<GuestRoute />}>
+          <Route path="login" element={<Login />} />
+          <Route path="register" element={<Register />} />
+        </Route>
 
-        <Route path="login" element={<Login />} />
-        <Route path="register" element={<Register />} />
-
-        <Route path="*" element={<NotFoundPage />} />
+        {/* Only authenticated users */}
+        <Route element={<ProtectedRoute />}>
+          <Route index element={<HomePage />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Route>
       </Routes>
 
       <ToastContainer
