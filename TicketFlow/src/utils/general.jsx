@@ -25,3 +25,14 @@ export const ToastMessage = (type, title, message) => {
         });
 }
 
+export const handleHttpError = (error, errorBag = false) => {
+    if (errorBag) {
+        ToastMessage("info", "Coming Soon!", "Error bag coming soon!");
+        return true;
+    } else {
+        if (error?.response?.data?.message) {
+            ToastMessage("error", "Error!", error?.response?.data?.message);
+        }
+    }
+}
+

@@ -1,12 +1,15 @@
 import { useState } from "react";
 import { Link } from "react-router";
-import { ToastMessage } from "../../utils/general";
+import { handleHttpError, ToastMessage } from "../../utils/general";
+import http from "../../api/http";
+import { login } from "../../api/authApi";
 
 export function Login() {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    const [email, setEmail] = useState("nurullah@example.com");
+    const [password, setPassword] = useState("password123");
     const [emailTouched, setEmailTouched] = useState(false);
     const [passwordTouched, setPasswordTouched] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleOnChangeEmail = (e) => {
         setEmail(e.target.value);
@@ -24,12 +27,16 @@ export function Login() {
         message: passwordTouched && password.trim() === "" ? "Enter your password!" : ""
     };
 
-    const handleLoginButton = (event) => {
+    const handleLoginButton = async (event) => {
         event.preventDefault();
+
+        if (isLoading) {
+            ToastMessage('warning', 'Warning', 'Please wait for pending transaction..');
+            return false;
+        }
 
         setEmailTouched(true);
         setPasswordTouched(true);
-
         if (!email.trim()) {
             ToastMessage('error', 'Error', 'Provide an Email!');
             return false;
@@ -38,6 +45,20 @@ export function Login() {
             ToastMessage('error', 'Error', 'Enter your password!');
             return false;
         }
+
+        try {
+            ToastMessage('info', 'Request Sent!', 'Your login request has been sent, please wait for the transaction!');
+            setIsLoading(true);
+            const response = await login({
+                email,
+                password
+            });
+            ToastMessage("success", "Successful!", "Welcome!");
+        } catch (e) {
+            handleHttpError(e);
+            setIsLoading(false);
+        }
+
     }
 
     return (
@@ -77,7 +98,11 @@ export function Login() {
                                     {passwordValidation.message}
                                 </div>
                             </div>
-                            <button type="submit" className="btn btn-primary w-100">Giriş Yap</button>
+                            <button
+                                type="submit"
+                                className="btn btn-primary w-100"
+                                disabled={isLoading}
+                            >Giriş Yap</button>
                         </form>
                         <p className="text-center mt-3">
                             Don't You Have an Account? <Link to="/register">Sign Up Now.</Link>

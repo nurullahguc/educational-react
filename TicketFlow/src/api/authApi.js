@@ -13,7 +13,7 @@ export const getCurrentUser = async () => {
 export const login = async (credentials) => {
     await getCsrfCookie();
 
-    await http.get("/api/login", credentials);
+    await http.post("/api/login", credentials);
 
     return getCurrentUser();
 }
