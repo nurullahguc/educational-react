@@ -14,7 +14,7 @@ export const ToastMessage = (type, title, message) => {
         </div>
         , {
             position: "top-right",
-            autoClose: 5000,
+            autoClose: 1000,
             hideProgressBar: false,
             closeOnClick: false,
             pauseOnHover: true,
