@@ -24,7 +24,7 @@ export function Header() {
         return () => document.removeEventListener("click", handleClickOutside);
     }, []);
 
-    const handleLogout = async(e) => {
+    const handleLogout = async (e) => {
         e.preventDefault();
 
         await logout();

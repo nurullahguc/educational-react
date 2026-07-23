@@ -21,7 +21,7 @@ export const login = async (credentials) => {
 export const register = async (userData) => {
     await getCsrfCookie();
 
-    await http.get("/api/register", userData);
+    await http.post("/api/register", userData);
 
     return getCurrentUser();
 }

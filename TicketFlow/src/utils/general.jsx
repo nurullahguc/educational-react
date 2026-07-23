@@ -36,3 +36,6 @@ export const handleHttpError = (error, errorBag = false) => {
     }
 }
 
+export const generateRandom = (min, max) => {
+    return Math.floor(Math.random() * max) + min;
+}

@@ -68,13 +68,16 @@ export function Login() {
                 <div className="row justify-content-center mt-5">
                     <div className="col-md-5">
                         <h1 className="text-center mb-4">Login</h1>
-                        <form onSubmit={handleLoginButton}>
+                        <form
+                            onSubmit={handleLoginButton}
+                            noValidate
+                        >
                             <div className="mb-3">
                                 <label htmlFor="email" className="form-label">Email:</label>
                                 <input
                                     type="email"
                                     id="email"
-                                    placeholder="Email adresinizi giriniz"
+                                    placeholder="Enter your email"
                                     value={email}
                                     className={`form-control ${!emailValidation.status ? 'is-invalid' : ''}`}
                                     onChange={handleOnChangeEmail}
@@ -89,7 +92,7 @@ export function Login() {
                                 <input
                                     type="password"
                                     id="password"
-                                    placeholder="Şifrenizi giriniz"
+                                    placeholder="Enter your password"
                                     value={password}
                                     onChange={handleOnChangePassword}
                                     className={`form-control ${!passwordValidation.status ? 'is-invalid' : ''}`}
