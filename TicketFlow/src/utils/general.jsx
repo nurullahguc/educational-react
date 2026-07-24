@@ -1,4 +1,5 @@
 import { toast, Bounce } from "react-toastify";
+import moment from "moment-timezone";
 
 /**
  * ######## Example Usage ######## 
@@ -39,3 +40,24 @@ export const handleHttpError = (error, errorBag = false) => {
 export const generateRandom = (min, max) => {
     return Math.floor(Math.random() * max) + min;
 }
+
+export const globalMoment = (date, format = "DD.MM.YYYY") => {
+    if (!date) return null
+    const timezone = 'Europe/Istanbul';
+    const language = 'en';
+
+    moment.locale(language);
+    return moment.tz(date, timezone).format(format);
+}
+
+export const delay = (callback, ms) => {
+    let timer;
+
+    return (...args) => {
+        clearTimeout(timer);
+
+        timer = setTimeout(() => {
+            callback(...args);
+        }, ms);
+    };
+};
