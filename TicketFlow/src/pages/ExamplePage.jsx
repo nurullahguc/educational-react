@@ -1,6 +1,9 @@
+import { Header } from "../../components/Header";
+
 export function ExamplePage() {
     return (
         <>
+            <Header />
             <div className="container">
                 <div className="text-center mt-5">
                     <h1>A Bootstrap 5 Starter Template</h1>

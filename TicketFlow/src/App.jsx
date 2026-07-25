@@ -9,6 +9,7 @@ import { Login } from "./pages/auth/Login"
 import { Register } from "./pages/auth/Register"
 import { ToastContainer, toast, Bounce } from 'react-toastify'
 import { PlayGround } from "./pages/play-ground/PlayGround"
+import { CreateTicket } from "./pages/home-page/CreateTicket"
 
 window.toast = toast;
 function App() {
@@ -24,6 +25,7 @@ function App() {
         {/* Only authenticated users */}
         <Route element={<ProtectedRoute />}>
           <Route index element={<HomePage />} />
+          <Route path="/create-ticket" element={<CreateTicket />} />
           <Route path="/play-ground" element={<PlayGround />} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>

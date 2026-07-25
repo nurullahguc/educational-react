@@ -7,6 +7,7 @@ import { TicketPriorityBadge } from "../../components/TicketPriorityBadge";
 import { LoadingSpinner } from "../../components/LoadingSpinner";
 import { ColumnOrderIcon } from "../../components/ColumnOrderIcon";
 import { ModalTicketDetail } from "./ModalTicketDetail";
+import { Link } from "react-router";
 
 export function TicketsGrid() {
     const [tickets, setTickets] = useState([]);
@@ -76,7 +77,13 @@ export function TicketsGrid() {
 
     return (
         <>
-
+            <div className="row my-2">
+                <div className="col-md-12 d-flex justify-content-end align-itmes-center">
+                    <Link to="create-ticket" className="btn btn-primary">
+                        <i style={{ color: 'white' }} className="fa-solid fa-plus mx-2"></i> Create Ticket
+                    </Link>
+                </div>
+            </div>
             <div className="row my-2">
                 <div className="col-4">
                     <label htmlFor="status">Status:</label>
