@@ -10,6 +10,7 @@ export const getTickets = async (options) => {
             status: options?.status ?? null,
             priority: options?.priority ?? null,
             id: options?.id ?? null,
+            page: options?.page ?? null,
         }
     });
 }
@@ -19,9 +20,7 @@ export const createTicket = async (ticket) => {
 }
 
 export const getTicket = async (ticketId) => {
-    const resposne = await http.get(`/api/tickets/${ticketId}`);
-
-    return resposne.data.data;
+    return await http.get(`/api/tickets/${ticketId}`);
 }
 
 export const updateTicket = async (ticketId, ticket) => {

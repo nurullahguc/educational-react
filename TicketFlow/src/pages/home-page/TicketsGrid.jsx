@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { getTickets } from "../../api/ticketApi";
 import { delay, handleHttpError } from "../../utils/general";
 import { globalMoment } from "../../utils/general";
@@ -6,6 +6,7 @@ import { TicketStatusBadge } from "../../components/TicketStatusBadge";
 import { TicketPriorityBadge } from "../../components/TicketPriorityBadge";
 import { LoadingSpinner } from "../../components/LoadingSpinner";
 import { ColumnOrderIcon } from "../../components/ColumnOrderIcon";
+import { ModalTicketDetail } from "./ModalTicketDetail";
 
 export function TicketsGrid() {
     const [tickets, setTickets] = useState([]);
@@ -21,7 +22,9 @@ export function TicketsGrid() {
         status: '',
         priority: '',
         id: '',
+        page: 1,
     })
+    const modalTicketDetailRef = useRef(null);
 
     const delayedSearchId = useMemo(
         () =>
@@ -43,6 +46,10 @@ export function TicketsGrid() {
             }, 650),
         []
     );
+    const getTicketDetail = (id) => {
+        modalTicketDetailRef.current?.openModal(id);
+    }
+
 
     const loadTickets = async (showLoading = true) => {
         try {
@@ -200,65 +207,83 @@ export function TicketsGrid() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {tickets.map((ticket) => {
-                                    return (
-                                        <tr key={ticket.id}>
-                                            <td>{ticket.id}</td>
-                                            <td>{ticket.title}</td>
-                                            <td>{ticket.description.substring(0, 10)}...</td>
-                                            <td>
-                                                <TicketStatusBadge status={ticket.status} />
-                                            </td>
-                                            <td>
-                                                <TicketPriorityBadge priority={ticket.priority} />
-                                            </td>
-                                            <td>{globalMoment(ticket.due_date)}</td>
-                                            <td>{globalMoment(ticket.created_at, "DD.MM.YYYY HH:mm")}</td>
-                                            <td>
-                                                <button className="btn btn-primary btn-sm">Detail</button>
-                                                <button className="btn btn-secondary btn-sm mx-2">Edit</button>
-                                                <button className="btn btn-danger btn-sm mx-2">Delete</button>
-                                            </td>
+                                {tickets.length === 0 ? (
+                                    <>
+                                        <tr>
+                                            <td
+                                                colSpan={21}
+                                                className="text-center text-danger"
+                                            >Data not found..</td>
                                         </tr>
-                                    );
-                                })}
+                                    </>
+                                ) : (
+                                    <>
+                                        {tickets.map((ticket) => {
+                                            return (
+                                                <tr key={ticket.id}>
+                                                    <td>{ticket.id}</td>
+                                                    <td>{ticket.title}</td>
+                                                    <td>{ticket.description.substring(0, 10)}...</td>
+                                                    <td>
+                                                        <TicketStatusBadge status={ticket.status} />
+                                                    </td>
+                                                    <td>
+                                                        <TicketPriorityBadge priority={ticket.priority} />
+                                                    </td>
+                                                    <td>{globalMoment(ticket.due_date)}</td>
+                                                    <td>{globalMoment(ticket.created_at, "DD.MM.YYYY HH:mm")}</td>
+                                                    <td>
+                                                        <button
+                                                            className="btn btn-primary btn-sm"
+                                                            onClick={() => getTicketDetail(ticket.id)}
+                                                        >Detail</button>
+                                                        <button
+                                                            className="btn btn-secondary btn-sm mx-2"
+                                                        >Edit</button>
+                                                        <button
+                                                            className="btn btn-danger btn-sm mx-2"
+                                                        >Delete</button>
+                                                    </td>
+                                                </tr>
+                                            );
+                                        })}
+                                    </>
+                                )}
+
                             </tbody>
                         </table>
 
                         <div className="row">
                             <div className="col-md-4 text-start">
-                                <p>Showing <b>10</b> out of <b>150</b> records.</p>
+                                <p>
+                                    Showing <b>{meta.from}</b> to <b>{meta.to}</b>
+                                    out of <b>{meta.total}</b> records.
+                                </p>
                             </div>
                             <div className="col-md-8 d-flex align-items-center justify-content-end">
                                 <nav aria-label="Page navigation example">
                                     <ul className="pagination">
                                         {meta.links?.map((link, index) => {
-                                            if (index === 0) {
-                                                return (
-                                                    <li
-                                                        key={index}
-                                                        className={`page-item ${link.active ? 'active' : ''}`}
-                                                    >
-                                                        <a
-                                                            className="page-link"
-                                                            href="#"
-                                                        >Previous</a>
-                                                    </li>
-                                                );
-                                            } else {
-
-                                                return (
-                                                    <li key={index} className={`page-item ${link.active ? 'active' : ''}`}
-                                                    >
-                                                        <a
-                                                            className="page-link"
-                                                            href="#"
-                                                        >{link.page}</a>
-                                                    </li>
-                                                );
-                                            }
+                                            return (
+                                                <li
+                                                    key={index}
+                                                    className={`page-item ${link.active ? 'active' : ''}`}
+                                                    onClick={() => {
+                                                        setSearchOptions(prev => ({
+                                                            ...prev,
+                                                            page: link.page,
+                                                        }))
+                                                    }}
+                                                >
+                                                    <a
+                                                        className="page-link"
+                                                        disabled={true}
+                                                        href="#"
+                                                        dangerouslySetInnerHTML={{ __html: link.label }}
+                                                    ></a>
+                                                </li>
+                                            );
                                         })}
-                                        <li className="page-item"><a className="page-link" href="#">Next</a></li>
                                     </ul>
                                 </nav>
                             </div>
@@ -270,6 +295,8 @@ export function TicketsGrid() {
                         <LoadingSpinner fullScreen={false} />
                     </>
                 )}
+
+            <ModalTicketDetail ref={modalTicketDetailRef} />
         </>
     );
 }

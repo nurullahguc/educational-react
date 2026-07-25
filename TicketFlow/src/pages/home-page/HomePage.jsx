@@ -1,5 +1,4 @@
 import { Header } from "../../components/Header";
-import { getTickets } from "../../api/ticketApi";
 import { TicketsGrid } from "./TicketsGrid";
 
 export function HomePage() {

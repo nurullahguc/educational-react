@@ -33,6 +33,8 @@ export const handleHttpError = (error, errorBag = false) => {
     } else {
         if (error?.response?.data?.message) {
             ToastMessage("error", "Error!", error?.response?.data?.message);
+        } else {
+            throw error;
         }
     }
 }

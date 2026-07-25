@@ -8,6 +8,7 @@ import { NotFoundPage } from "./pages/error-pages/NotFoundPage"
 import { Login } from "./pages/auth/Login"
 import { Register } from "./pages/auth/Register"
 import { ToastContainer, toast, Bounce } from 'react-toastify'
+import { PlayGround } from "./pages/play-ground/PlayGround"
 
 window.toast = toast;
 function App() {
@@ -23,6 +24,7 @@ function App() {
         {/* Only authenticated users */}
         <Route element={<ProtectedRoute />}>
           <Route index element={<HomePage />} />
+          <Route path="/play-ground" element={<PlayGround />} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Routes>
