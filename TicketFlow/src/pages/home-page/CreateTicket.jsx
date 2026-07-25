@@ -20,7 +20,6 @@ export function CreateTicket() {
                                         <label htmlFor="ticketDescription">Description:</label>
                                         <input type="text" className="form-control form-control-sm" />
                                     </div>
-
                                     <div className="col-md-6 my-2">
                                         <label htmlFor="ticketStatus">Description:</label>
                                         <select
@@ -34,7 +33,6 @@ export function CreateTicket() {
                                             <option value="closed">Closed</option>
                                         </select>
                                     </div>
-
                                     <div className="col-md-6 my-2">
                                         <label htmlFor="ticketPiriority">Description:</label>
                                         <select
@@ -49,7 +47,6 @@ export function CreateTicket() {
                                         </select>
                                     </div>
                                 </div>
-
                                 <div className="row">
                                     <button
                                         type="submit"
