@@ -96,7 +96,9 @@ export function TicketsGrid() {
     }
 
     useEffect(() => {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         loadTickets();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [searchOptions]);
 
     return (

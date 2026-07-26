@@ -119,9 +119,9 @@ export function TicketForm({mode}) {
     }
 
     useEffect(() => {
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         getTicketDetail();
-    }, [ticketId, mode]);
+    }, []);
     return (
         <div className="row d-flex align-items-center justify-content-center">
             <div className="col-md-8">
