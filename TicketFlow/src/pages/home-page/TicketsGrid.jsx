@@ -18,8 +18,8 @@ export function TicketsGrid() {
     const [ticketId, setTicketId] = useState("");
     const [ticketSearch, setTicketSearch] = useState("");
     const [searchOptions, setSearchOptions] = useState({
-        sort: null,
-        direction: null,
+        sort: 'created_at',
+        direction: 'desc',
         per_page: 10,
         search: '',
         status: '',
@@ -227,16 +227,58 @@ export function TicketsGrid() {
                                     <ColumnOrderIcon
                                         text="ID"
                                         column="id"
+                                        searchOptions={searchOptions}
+                                        setSearchOptions={setSearchOptions}
                                     />
                                 </th>
                                 <th>
-                                    <ColumnOrderIcon text={'Title'}/>
+                                    <ColumnOrderIcon
+                                        text={'Title'}
+                                        column="title"
+                                        searchOptions={searchOptions}
+                                        setSearchOptions={setSearchOptions}
+                                    />
                                 </th>
-                                <th>Description</th>
-                                <th>Status</th>
-                                <th>Priority</th>
-                                <th>Due Date</th>
-                                <th>Created At</th>
+                                <th>
+                                    <ColumnOrderIcon
+                                        text="Description"
+                                        column="description"
+                                        searchOptions={searchOptions}
+                                        setSearchOptions={setSearchOptions}
+                                    />
+                                </th>
+                                <th>
+                                    <ColumnOrderIcon
+                                        text="Status"
+                                        column="status"
+                                        searchOptions={searchOptions}
+                                        setSearchOptions={setSearchOptions}
+                                    />
+                                </th>
+                                <th>
+                                    <ColumnOrderIcon
+                                        text="Priority"
+                                        column="priority"
+                                        searchOptions={searchOptions}
+                                        setSearchOptions={setSearchOptions}
+                                    />
+                                </th>
+                                <th>
+                                    <ColumnOrderIcon
+                                        text="Due Date"
+                                        column="due_date"
+                                        searchOptions={searchOptions}
+                                        setSearchOptions={setSearchOptions}
+                                    />
+                                </th>
+                                <th>
+                                    <ColumnOrderIcon
+                                        text="Created At"
+                                        column="created_at"
+                                        searchOptions={searchOptions}
+                                        setSearchOptions={setSearchOptions}
+                                    />
+                                </th>
                                 <th>Actions</th>
                             </tr>
                             </thead>
