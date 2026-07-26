@@ -1,51 +1,54 @@
-import { Routes, Route } from "react-router"
-import { ProtectedRoute } from "./routes/ProtectedRoute"
-import { GuestRoute } from "./routes/GuestRoute"
+import {Routes, Route} from "react-router"
+import {ProtectedRoute} from "./routes/ProtectedRoute"
+import {GuestRoute} from "./routes/GuestRoute"
 
-import { HomePage } from './pages/home-page/HomePage'
+import {HomePage} from './pages/home-page/HomePage'
 import './App.css'
-import { NotFoundPage } from "./pages/error-pages/NotFoundPage"
-import { Login } from "./pages/auth/Login"
-import { Register } from "./pages/auth/Register"
-import { ToastContainer, toast, Bounce } from 'react-toastify'
-import { PlayGround } from "./pages/play-ground/PlayGround"
-import { CreateTicket } from "./pages/home-page/CreateTicket"
+import {NotFoundPage} from "./pages/error-pages/NotFoundPage"
+import {Login} from "./pages/auth/Login"
+import {Register} from "./pages/auth/Register"
+import {ToastContainer, toast, Bounce} from 'react-toastify'
+import {PlayGround} from "./pages/play-ground/PlayGround"
+import {CreateTicket} from "./pages/home-page/CreateTicket"
+import {EditTicket} from "./pages/home-page/EditTicket.jsx";
 
 window.toast = toast;
+
 function App() {
-  return (
-    <>
-      <Routes>
-        {/* Only unauthenticated users */}
-        <Route element={<GuestRoute />}>
-          <Route path="login" element={<Login />} />
-          <Route path="register" element={<Register />} />
-        </Route>
+    return (
+        <>
+            <Routes>
+                {/* Only unauthenticated users */}
+                <Route element={<GuestRoute/>}>
+                    <Route path="login" element={<Login/>}/>
+                    <Route path="register" element={<Register/>}/>
+                </Route>
 
-        {/* Only authenticated users */}
-        <Route element={<ProtectedRoute />}>
-          <Route index element={<HomePage />} />
-          <Route path="/create-ticket" element={<CreateTicket />} />
-          <Route path="/play-ground" element={<PlayGround />} />
-          <Route path="*" element={<NotFoundPage />} />
-        </Route>
-      </Routes>
+                {/* Only authenticated users */}
+                <Route element={<ProtectedRoute/>}>
+                    <Route index element={<HomePage/>}/>
+                    <Route path="/create-ticket" element={<CreateTicket/>}/>
+                    <Route path="/edit-ticket/:id" element={<EditTicket/>}/>
+                    <Route path="/play-ground" element={<PlayGround/>}/>
+                    <Route path="*" element={<NotFoundPage/>}/>
+                </Route>
+            </Routes>
 
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick={false}
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="colored"
-        transition={Bounce}
-      />
-    </>
-  )
+            <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick={false}
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="colored"
+                transition={Bounce}
+            />
+        </>
+    )
 }
 
 export default App
