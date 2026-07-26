@@ -18,7 +18,7 @@ export function ExampleModal({ ref }) {
             handleModalOpen(payload);
         },
         closeModal: () => modal().hide(),
-    }), []);
+    }), [handleModalOpen]);
 
     return (
         <div ref={el} className="modal fade" tabIndex={-1}>

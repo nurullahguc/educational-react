@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router";
 import { handleHttpError, ToastMessage } from "../../utils/general";
-import { login } from "../../api/authApi";
 import { useAuth } from "../../hooks/useAuth";
 
 export function Login() {

@@ -11,12 +11,14 @@ export function TicketForm({mode}) {
         description: '',
         status: '',
         priority: '',
+        due_date: '',
     };
     const formTouchedInit = {
         title: false,
         description: false,
         status: false,
         priority: false,
+        due_date: false,
     }
     const [form, setForm] = useState({...formData});
     const [formTouched, setFormTouched] = useState({...formTouchedInit});
@@ -39,6 +41,10 @@ export function TicketForm({mode}) {
         priority: {
             status: !formTouched.priority || form.priority !== "",
             message: formTouched.priority && form.priority === "" ? "Select a priority!" : ""
+        },
+        due_date: {
+            status: !formTouched.due_date || form.due_date !== "",
+            message: formTouched.due_date && form.due_date === "" ? "Select a due date!" : ""
         }
     }
 
@@ -62,10 +68,11 @@ export function TicketForm({mode}) {
             title: true,
             description: true,
             status: true,
-            priority: true
+            priority: true,
+            due_date: true
         });
 
-        if (!form.title.trim() || !form.description.trim() || !form.status || !form.priority) {
+        if (!form.title.trim() || !form.description.trim() || !form.status || !form.priority || !form.due_date) {
             return;
         }
 
@@ -101,6 +108,7 @@ export function TicketForm({mode}) {
                     description: ticketData.description ?? '',
                     status: ticketData.status ?? '',
                     priority: ticketData.priority ?? '',
+                    due_date: ticketData.due_date ?? ''
                 });
             } catch (e) {
                 handleHttpError(e);
@@ -111,9 +119,9 @@ export function TicketForm({mode}) {
     }
 
     useEffect(() => {
-        // eslint-disable-next-line react-hooks/set-state-in-effect
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         getTicketDetail();
-    }, []);
+    }, [ticketId, mode]);
     return (
         <div className="row d-flex align-items-center justify-content-center">
             <div className="col-md-8">
@@ -188,6 +196,21 @@ export function TicketForm({mode}) {
                                 </select>
                                 <div className="invalid-feedback">
                                     {formValidation.priority.message}
+                                </div>
+                            </div>
+                            <div className="col-md-6 my-2">
+                                <label htmlFor="ticketDueDate">Due Date:</label>
+                                <input
+                                    type="date"
+                                    className={`form-control form-control-sm ${formValidation.due_date.status ? '' : 'is-invalid'}`}
+                                    name="due_date"
+                                    id="ticketDueDate"
+                                    value={form.due_date}
+                                    onChange={handleFormChange}
+                                    onBlur={handleFormChange}
+                                />
+                                <div className="invalid-feedback">
+                                    {formValidation.due_date.message}
                                 </div>
                             </div>
                         </div>
